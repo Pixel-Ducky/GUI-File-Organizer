@@ -6,7 +6,7 @@ You want to organize the files. In GUI choose 'cat'.
 
 .jpg .png .jpeg .gif  .jfif   --> Pictures\pics  
 .pdf .epub --> Desktop\Books  
-.docx .pptx .xls -->Documents\Folder_Projects  
+.docx .pptx .xlsx -->Documents\Folder_Projects  
 .txt --> Documents\Folder_Notepad  
 .mp4 --> Documents\Folder_Video  
 .mp3 .mov-->Documents\Folder_Audio  
