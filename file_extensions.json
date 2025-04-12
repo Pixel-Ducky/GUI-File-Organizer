@@ -1,0 +1,17 @@
+{
+    ".jpg": "Pictures/pics",
+    ".png": "Pictures/pics",
+    ".jpeg": "Pictures/pics",
+    ".gif": "Pictures/pics",
+    ".jfif": "Pictures/pics",
+    ".pdf": "Desktop/Books",
+    ".epub": "Desktop/Books",
+    ".docx": "Documents/Folder_Projects",
+    ".pptx": "Documents/Folder_Projects",
+    ".xlsx": "Documents/Folder_Projects",
+    ".txt": "Documents/Folder_Notepad",
+    ".mp4": "Documents/Folder_Video",
+    ".mp3": "Documents/Folder_Audio",
+    ".wav": "Documents/Folder_Audio"
+  }
+  
