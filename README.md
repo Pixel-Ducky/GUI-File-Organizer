@@ -9,5 +9,5 @@ You want to organize the files. In GUI choose 'cat'.
 .docx .pptx .xls -->Documents\Folder_Projects  
 .txt --> Documents\Folder_Notepad  
 .mp4 --> Documents\Folder_Video  
-.mp3 -->Documents\Folder_Audio  
+.mp3 .mov-->Documents\Folder_Audio  
 
