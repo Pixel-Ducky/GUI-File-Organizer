@@ -1,5 +1,6 @@
 # GUI-File-Organizer
 You choose a Folder and it will organise the files inside. It may leave the folder empty.
+This code is meant for Windows, I'm not sure if it will also work for Mac/Linux.
 
 You have a Folder , named cat, with mixed files.  
 You want to organize the files. In GUI choose 'cat'.  
