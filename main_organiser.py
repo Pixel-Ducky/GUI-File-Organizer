@@ -2,6 +2,7 @@ import os
 import shutil
 from pathlib import Path
 import json
+import sys
 
 
 class FileOrganizingYey:
@@ -9,7 +10,9 @@ class FileOrganizingYey:
 
 #find home directory dynamically
         self.home_path = Path.home()
-        self.path_to_json_file = Path("file_extensions.json")
+        
+        #self.path_to_json_file = Path("file_extensions.json")
+        self.path_to_json_file = Path(self.resource_path("file_extensions.json"))
         self.extension_table = self.read_from_json_file()
         self.found_path = file_path
 
@@ -26,6 +29,18 @@ class FileOrganizingYey:
                 #return found_path
     #----------------------------------------------------------------------------------------
         
+
+    def resource_path(self,relative_path):
+         try:
+             # If running as .exe, use _MEIPASS to access the bundled resource
+             base_path = sys._MEIPASS
+         except Exception:
+             # Otherwise, use the current directory (when running as script)
+             base_path = os.path.dirname(os.path.abspath(__file__))
+            
+         return os.path.join(base_path, relative_path)
+
+
 
 
     def read_from_json_file(self):
