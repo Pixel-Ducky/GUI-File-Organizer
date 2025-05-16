@@ -4,10 +4,19 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from main_organiser import FileOrganizingYey
 import os
+import logging
 
 path_to_folder_i_want_to_monitor =  os.path.join(Path.home(), 'Downloads')
 bad_ext = ['.tmp', '.crdownload', '.part', '.json',  '.ini','.exe','.zip']
 #here we tell python what to do if it sees changes
+
+
+
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='moved_files.log', encoding='utf=8',level=logging.DEBUG,format="%(asctime)s [%(levelname)s] %(message)s",datefmt='%d/%m/%Y %H:%M:%S %p')
+
+
 
 class MyHandler(FileSystemEventHandler):
 
@@ -42,14 +51,17 @@ class MyHandler(FileSystemEventHandler):
               
        _,extension = os.path.splitext(event.dest_path)
        if extension.lower() in bad_ext :
-           print(f"Ignored file: {event.dest_path}")
+           #print(f"Ignored file: {event.dest_path}")
+           logger.debug('ignored file %s', event.dest_path)
            return
 
        if self.is_file_stable(event.dest_path) == False:
+           #print('file is unstable')
+           logger.info('file is unstable')
            return
 
 
-       print(f"_______________________-{event.dest_path}_______________________________")
+       #print(f"_______________________-{event.dest_path}_______________________________")
        meme = FileOrganizingYey(path_to_folder_i_want_to_monitor,event.dest_path ,extension )
        meme.finally_organizing()
 
@@ -76,9 +88,11 @@ if __name__ == "__main__":
             time.sleep(1) #waits for 1 second between running the loop again in order not to overload the CPU
 
     except KeyboardInterrupt:
-        print("Caught KeyboardInterrupt______________________________")
+        #print("Caught KeyboardInterrupt______________________________")
+        logger.debug("Caught KeyboardInterrupt______________________________")
     except Exception as e:
-        print(f"Unexpected error: {e}___________________________________")
+        #print(f"Unexpected error: {e}___________________________________")
+        logger.critical("Unexpected error: %s___________________________________",e)
     finally:
         observer.stop()#requests the observer to stop
         observer.join()#safety net , makes sure it truly stops , waits for the observer to finish its work and actually stop.

@@ -3,7 +3,15 @@ import shutil
 from pathlib import Path
 import json
 import sys
+import logging
 #hello
+
+
+logger = logging.getLogger(__name__) #This gets a named logger based on the module name where it’s called. it lets me create different logging systems for different files.
+logging.basicConfig(filename='moved_files.log', encoding='utf=8',level=logging.DEBUG,
+                    format='%(asctime)s [%(levelname)s] (%(name)s) %(message)s',
+                    datefmt='%d/%m/%Y %H:%M:%S %p')
+
 
 class FileOrganizingYey:
     def __init__(self,path_to_downloads,file_path, file_extension ):
@@ -75,42 +83,31 @@ class FileOrganizingYey:
             checked_if_ext_in_json = self.check_if_extension_in_json(self.file_extension , self.extension_table)
             
             if checked_if_ext_in_json == 'sorry , there is something wrong with the JSON file':
-                 print(checked_if_ext_in_json)
+                 #print(checked_if_ext_in_json)
+                 logger.error('There is something wrong with the JSON file')
 
             elif checked_if_ext_in_json:                
                         try:
                              if checked_if_ext_in_json.exists():
-                                 shutil.move(self.file_path ,checked_if_ext_in_json )    
+                                 shutil.move(self.file_path ,checked_if_ext_in_json ) 
+                                 path = Path(self.file_path)
+                                 filename = path.name #pathlib function to get name of file from path
+                                 logger.info('moved "%s" to "%s" ',filename , checked_if_ext_in_json)   
                              else:
                                  os.makedirs(checked_if_ext_in_json, exist_ok=True)
-                                 print('creating directories')
+                                 #print('creating directories')
+                                 logger.debug('creating directories')  
                                  shutil.move(self.file_path ,checked_if_ext_in_json )
+                                 logger.info('moved "%s" to "%s" ',filename , checked_if_ext_in_json)
                         except shutil.Error  :
-                                 print(f'this file : "{self.file_path}"\n is already in the destination folder. change the name manually , we wont move it.\n')              
+                                 #print(f'this file : "{self.file_path}"\n is already in the destination folder. change the name manually , we wont move it.\n') 
+                                 logger.warning('this file : "%s" is already in the destination folder. change the name manually , we wont move it.\n',filename)             
             else: 
-                    print(f'{self.file_extension} is not inside json filetable')
+                    #print(f'{self.file_extension} is not inside json filetable')
+                    logger.info('%s is not inside json filetable',self.file_extension)
 
 
-            # for file in os.listdir(self.path_to_downloads): #list contents of Folder
-            #     filepath_for_file_in_Folder = Path(os.path.join(self.path_to_downloads, file) ) #construct absolute filepath for all contents
-
-            #     if filepath_for_file_in_Folder.is_file(): # check if content is a file
-            #         file_extension = self.select_file_extension(filepath_for_file_in_Folder)
-            #         checked = self.check_if_extension_in_json(file_extension , self.extension_table)
-
-            #         if checked:                
-            #             try:
-            #                 if checked.exists():
-            #                     shutil.move(filepath_for_file_in_Folder ,checked )    
-            #                 else:
-            #                     os.makedirs(checked, exist_ok=True)
-            #                     print('creating directories')
-            #                     shutil.move(filepath_for_file_in_Folder ,checked )
-            #             except shutil.Error  :
-            #                     print(f'this file "{file}" is already in the destination folder.\n change the name manually , we wont move it.\n')              
-            #         else: 
-            #             print(f'{file_extension} is not inside json filetable')
-
+         
 
 
 
