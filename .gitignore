@@ -3,6 +3,5 @@ __pycache__/
 *.pyo
 *.pyd
 *.log
-*.ico
 .env
 .DS_Store
