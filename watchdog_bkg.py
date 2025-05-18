@@ -5,6 +5,32 @@ from watchdog.events import FileSystemEventHandler
 from main_organiser import FileOrganizingYey
 import os
 import logging
+import win32com.client
+import sys
+
+
+
+
+
+def add_to_startup():
+    script_path  = sys.argv[0] #if its .exe it will get the full absolute path , sys.argv is a list where windows stores
+                               # as first item the name/path of the current running program and then command line arguments.
+                               #if program is run from VsCode or double clicked --> absolute path , else just the name or if we specify in cmd the path to it.
+
+    shell = win32com.client.Dispatch('WScript.Shell') #make in memory a COM object that gives us access to system manipulation like shortcuts , special folders,enviorment varibales , launching processes etc
+
+    startup_dir = shell.SpecialFolders('Startup') #VSCode can't "see" into the COM object because it's created dynamically at runtime
+                                                  # gets the path to startup folder
+
+    shortcut_path = os.path.join(startup_dir, 'WatchdogFileorganizer.lnk')             
+
+    if not os.path.exists(shortcut_path): #if link isnt in startup
+        shortcut = shell.CreateShortcut(shortcut_path)        
+        shortcut.TargetPath = script_path
+        shortcut.WorkingDirectory = os.path.dirname(script_path)       
+        shortcut.Save()                  
+
+
 
 path_to_folder_i_want_to_monitor =  os.path.join(Path.home(), 'Downloads')
 bad_ext = ['.tmp', '.crdownload', '.part', '.json',  '.ini','.exe','.zip']
@@ -72,6 +98,8 @@ class MyHandler(FileSystemEventHandler):
 
 
 if __name__ == "__main__":
+
+    add_to_startup()
     
     event_handler = MyHandler()
     observer = Observer() #we initialize the observer to watch the folder
